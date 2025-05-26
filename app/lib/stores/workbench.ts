@@ -197,12 +197,12 @@ export class WorkbenchStore {
   }
 
   async saveAllFiles() {
-    for (const filePath of this.unsavedFiles.get()) {
-      await this.saveFile(filePath);
-    }
+    const unsaved = [...this.unsavedFiles.get()];
+
+    await Promise.all(unsaved.map((filePath) => this.saveFile(filePath)));
   }
 
-  getFileModifcations() {
+  getFileModifications() {
     return this.#filesStore.getFileModifications();
   }
 
